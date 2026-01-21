@@ -50,6 +50,7 @@ AI 负责维护 Part B 的内容：
 > “1。 agentUI”
 > “2. 可以” (针对选定场景)
 > “3. 可以” (针对生成草案)
+> “提交到github”
 
 ## 2. 已确定的决策
 ### 2.0 项目基础 (New)
@@ -61,6 +62,10 @@ AI 负责维护 Part B 的内容：
 1.  **词汇表**: `Component Registry` (13 个领域组件)
 2.  **语法**: `UI Plan Schema` (JSON 结构，分离数据与布局)
 3.  **实例**: `Sprint Dashboard` (JSON 样例)
+
+### 2.0.2 Git Configuration
+- **Remote Repository**: `git@github.com:maxoreric/agentUI.git`
+- **Current Branch**: `master`
 
 ### 2.1 系统总体方向
 - **目标不是直接生成 UI 代码**，而是构建一个 **AI → 中间层（结构化规范）→ 前端渲染** 的体系。
