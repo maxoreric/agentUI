@@ -1,0 +1,174 @@
+{
+    "version": "1.0",
+    "meta": {
+        "title": "Sprint 24 Tracking",
+        "description": "Real-time view of current sprint progress"
+    },
+    "dataSources": {
+        "sprintStats": {
+            "type": "fetch",
+            "url": "/api/sprints/current/stats",
+            "refreshInterval": 60000
+        },
+        "activeTasks": {
+            "type": "fetch",
+            "url": "/api/sprints/current/tasks?status=active",
+            "refreshInterval": 30000
+        },
+        "teamStatus": {
+            "type": "fetch",
+            "url": "/api/team/members/status"
+        }
+    },
+    "layout": {
+        "type": "container",
+        "direction": "column",
+        "gap": "medium",
+        "children": [
+            {
+                "type": "component",
+                "componentName": "ProjectHeader",
+                "props": {
+                    "title": "Sprint 24: Core Features",
+                    "description": "Focus on User Authentication and Reporting"
+                },
+                "data": {
+                    "meta": [
+                        {
+                            "label": "Days Left",
+                            "value": {
+                                "$ref": "sprintStats.daysRemaining"
+                            },
+                            "icon": "calendar"
+                        },
+                        {
+                            "label": "Goal",
+                            "value": "Release v2.0",
+                            "icon": "flag"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "container",
+                "direction": "row",
+                "gap": "small",
+                "children": [
+                    {
+                        "type": "component",
+                        "componentName": "MetricCard",
+                        "props": {
+                            "variant": "outlined",
+                            "trendColor": "auto"
+                        },
+                        "data": {
+                            "label": "Velocity",
+                            "value": {
+                                "$ref": "sprintStats.velocity"
+                            },
+                            "trend": {
+                                "direction": "up",
+                                "percentage": "12%",
+                                "description": "vs last sprint"
+                            }
+                        }
+                    },
+                    {
+                        "type": "component",
+                        "componentName": "MetricCard",
+                        "props": {
+                            "variant": "outlined",
+                            "trendColor": "reverse"
+                        },
+                        "data": {
+                            "label": "Critical Bugs",
+                            "value": {
+                                "$ref": "sprintStats.bugsCount"
+                            },
+                            "trend": {
+                                "direction": "down",
+                                "percentage": "2",
+                                "description": "open issues"
+                            }
+                        }
+                    },
+                    {
+                        "type": "component",
+                        "componentName": "ProgressTracker",
+                        "data": {
+                            "current": {
+                                "$ref": "sprintStats.completedPoints"
+                            },
+                            "total": {
+                                "$ref": "sprintStats.totalPoints"
+                            },
+                            "unit": "pts",
+                            "milestones": [
+                                {
+                                    "value": 50,
+                                    "label": "Halfway"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "container",
+                "direction": "row",
+                "gap": "medium",
+                "children": [
+                    {
+                        "type": "container",
+                        "direction": "column",
+                        "gap": "small",
+                        "children": [
+                            {
+                                "type": "component",
+                                "componentName": "KanbanBoard",
+                                "id": "main_board",
+                                "props": {
+                                    "groupBy": "status",
+                                    "allowDragDrop": true
+                                },
+                                "data": {
+                                    "columns": {
+                                        "$ref": "activeTasks.columns"
+                                    },
+                                    "items": {
+                                        "$ref": "activeTasks.items"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "type": "container",
+                        "direction": "column",
+                        "gap": "small",
+                        "children": [
+                            {
+                                "type": "component",
+                                "componentName": "TeamList",
+                                "props": {
+                                    "displayMode": "list"
+                                },
+                                "data": {
+                                    "$ref": "teamStatus.members"
+                                }
+                            },
+                            {
+                                "type": "component",
+                                "componentName": "AlertBanner",
+                                "data": {
+                                    "type": "warning",
+                                    "message": "Backend API deployment scheduled for 2 PM"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
