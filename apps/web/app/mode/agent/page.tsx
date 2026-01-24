@@ -9,7 +9,7 @@ import {
   useData,
   Renderer,
 } from "@json-render/react";
-import { agentRegistry } from "@/components/agent-registry";
+import { demoRegistry } from "@/components/demo/index";
 
 function AgentViewer() {
   const { tree, isStreaming, error, send } = useUIStream({
@@ -69,8 +69,8 @@ function AgentViewer() {
         {tree && (
           <Renderer
             tree={tree}
-            registry={agentRegistry}
-            loading={isStreaming}
+            registry={demoRegistry}
+            // loading={isStreaming} // Disabled: Stream is persistent, so this locks UI forever.
           />
         )}
 

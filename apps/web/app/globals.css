@@ -77,13 +77,138 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Neon Colors */
+  --color-neon-blue: #00d4ff;
+  --color-neon-purple: #bc13fe;
+  --color-neon-green: #39ff14;
+  /* Bento Material Colors */
+  --color-primary-container: #d3e8d3;
+  --color-on-primary-container: #042100;
+  --color-secondary-container: #d9e7cb;
+  --color-tertiary-container: #bbebec;
+  --color-surface-bright: #fdfdfd;
+  --color-surface-dim: #e0e4eb;
+  --color-lavender-container: #e8def8;
+  --color-mint-container: #cce8cf;
+  --color-sky-container: #d7e3ff;
 }
+
+@layer components {
+
+  /* Bento Neumorph Styles */
+  .bento-tile {
+    background-color: #ecf0f3;
+    border-radius: 1.75rem;
+    box-shadow: 12px 12px 24px #d1d9e6, -12px -12px 24px #ffffff;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .bento-tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 15px 15px 30px #d1d9e6, -15px -15px 30px #ffffff;
+  }
+
+  .neumorph-inset {
+    box-shadow: inset 6px 6px 12px #d1d9e6, inset -6px -6px 12px #ffffff;
+    background-color: #ecf0f3;
+    border-radius: 1.5rem;
+  }
+
+  .neumorph-btn-shadow {
+    box-shadow: 6px 6px 12px #c9d2de, -6px -6px 12px #ffffff;
+  }
+
+  .chart-shadow {
+    filter: drop-shadow(0px 10px 15px rgba(0, 52, 101, 0.15));
+  }
+
+  /* Neon Card Styles */
+
+  :root {
+    --neu-light: rgba(255, 255, 255, 0.05);
+    --neu-shadow: rgba(0, 0, 0, 0.6);
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-neu-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      12px 12px 24px var(--neu-shadow),
+      -4px -4px 12px var(--neu-light);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-neu-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 50%);
+    pointer-events: none;
+  }
+
+  .glass-neu-inset {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    box-shadow:
+      inset 4px 4px 8px var(--neu-shadow),
+      inset -2px -2px 6px var(--neu-light);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-neu-button {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(4px);
+    box-shadow: 6px 6px 12px var(--neu-shadow), -2px -2px 6px var(--neu-light);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-neu-button:active {
+    box-shadow: inset 4px 4px 8px var(--neu-shadow), inset -2px -2px 6px var(--neu-light);
+    transform: scale(0.97);
+  }
+
+  .neon-glow-blue {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+
+  .neon-glow-purple {
+    text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
+  }
+
+  /* Custom Scrollbar override for components */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+}
+
 
 @layer base {
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-geist-sans), system-ui, sans-serif;

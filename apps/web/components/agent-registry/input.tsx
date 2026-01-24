@@ -7,11 +7,16 @@ export function Input({ element }: ComponentRenderProps) {
   const { props } = element;
   const label = props.label as string | undefined;
   const bindPath = props.bindPath as string | undefined;
+  const name = props.name as string | undefined;
   const placeholder = props.placeholder as string | undefined;
   const type = (props.type as string) || "text";
 
+  // Use name as bindPath if not provided (prepend / if needed)
+  const effectivePath =
+    bindPath || (name ? (name.startsWith("/") ? name : `/${name}`) : "");
+
   // Use data binding if bindPath is provided
-  const [value, setValue] = useDataBinding(bindPath || "");
+  const [value, setValue] = useDataBinding(effectivePath);
 
   return (
     <div className="space-y-1">

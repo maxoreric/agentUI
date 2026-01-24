@@ -3,8 +3,8 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-const RENDER_SCRIPT = path.join(__dirname, 'packages/render-skill/scripts/render.js');
-const WAIT_SCRIPT = path.join(__dirname, 'packages/render-skill/scripts/wait_for_input.js');
+const RENDER_SCRIPT = path.join(__dirname, '../../../scripts/render.js');
+const WAIT_SCRIPT = path.join(__dirname, '../../../scripts/wait_for_input.js');
 
 function run(script, input = null) {
     return new Promise((resolve, reject) => {

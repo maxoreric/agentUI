@@ -1,0 +1,227 @@
+{
+    "root": "main_page",
+    "elements": {
+        "main_page": {
+            "key": "main_page",
+            "type": "Stack",
+            "props": {
+                "direction": "vertical",
+                "gap": "lg",
+                "className": [
+                    "p-6"
+                ]
+            },
+            "children": [
+                "header",
+                "intro_card",
+                "stats_grid"
+            ]
+        },
+        "header": {
+            "key": "header",
+            "type": "Heading",
+            "props": {
+                "text": "Mission Control",
+                "level": 1
+            }
+        },
+        "intro_card": {
+            "key": "intro_card",
+            "type": "Card",
+            "props": {
+                "title": "Welcome, Commander",
+                "description": "System operational. All systems nominal.",
+                "maxWidth": "full"
+            },
+            "children": [
+                "intro_text"
+            ]
+        },
+        "intro_text": {
+            "key": "intro_text",
+            "type": "Text",
+            "props": {
+                "content": "This dashboard demonstrates the capabilities of the JSON Render Skill. We are monitoring CPU, Memory, and Network status in real-time.",
+                "variant": "body"
+            }
+        },
+        "stats_grid": {
+            "key": "stats_grid",
+            "type": "Grid",
+            "props": {
+                "columns": 1,
+                "gap": "md",
+                "className": [
+                    "sm:grid-cols-2",
+                    "lg:grid-cols-3"
+                ]
+            },
+            "children": [
+                "cpu_card",
+                "mem_card",
+                "net_card",
+                "users_card",
+                "storage_card",
+                "alerts_card"
+            ]
+        },
+        "cpu_card": {
+            "key": "cpu_card",
+            "type": "Card",
+            "props": {
+                "title": "CPU Load"
+            },
+            "children": [
+                "cpu_prog",
+                "cpu_label"
+            ]
+        },
+        "cpu_prog": {
+            "key": "cpu_prog",
+            "type": "Progress",
+            "props": {
+                "value": 78,
+                "className": [
+                    "h-2",
+                    "mb-2"
+                ]
+            }
+        },
+        "cpu_label": {
+            "key": "cpu_label",
+            "type": "Text",
+            "props": {
+                "content": "78% Usage",
+                "variant": "caption",
+                "className": [
+                    "text-right"
+                ]
+            }
+        },
+        "mem_card": {
+            "key": "mem_card",
+            "type": "Card",
+            "props": {
+                "title": "Memory"
+            },
+            "children": [
+                "mem_prog",
+                "mem_label"
+            ]
+        },
+        "mem_prog": {
+            "key": "mem_prog",
+            "type": "Progress",
+            "props": {
+                "value": 42,
+                "className": [
+                    "h-2",
+                    "mb-2",
+                    "text-green-500"
+                ]
+            }
+        },
+        "mem_label": {
+            "key": "mem_label",
+            "type": "Text",
+            "props": {
+                "content": "42% Usage (14GB Free)",
+                "variant": "caption",
+                "className": [
+                    "text-right"
+                ]
+            }
+        },
+        "net_card": {
+            "key": "net_card",
+            "type": "Card",
+            "props": {
+                "title": "Network"
+            },
+            "children": [
+                "net_badge"
+            ]
+        },
+        "net_badge": {
+            "key": "net_badge",
+            "type": "Badge",
+            "props": {
+                "text": "Stable Connection",
+                "variant": "success"
+            }
+        },
+        "users_card": {
+            "key": "users_card",
+            "type": "Card",
+            "props": {
+                "title": "Active Sessions"
+            },
+            "children": [
+                "user_count"
+            ]
+        },
+        "user_count": {
+            "key": "user_count",
+            "type": "Text",
+            "props": {
+                "content": "1,245",
+                "className": [
+                    "text-3xl",
+                    "font-bold"
+                ]
+            }
+        },
+        "storage_card": {
+            "key": "storage_card",
+            "type": "Card",
+            "props": {
+                "title": "Storage"
+            },
+            "children": [
+                "storage_bar"
+            ]
+        },
+        "storage_bar": {
+            "key": "storage_bar",
+            "type": "Progress",
+            "props": {
+                "value": 92,
+                "className": [
+                    "h-2",
+                    "mb-2",
+                    "text-red-500"
+                ]
+            }
+        },
+        "alerts_card": {
+            "key": "alerts_card",
+            "type": "Card",
+            "props": {
+                "title": "Recent Alerts"
+            },
+            "children": [
+                "alert_stack"
+            ]
+        },
+        "alert_stack": {
+            "key": "alert_stack",
+            "type": "Stack",
+            "props": {
+                "direction": "vertical",
+                "gap": "sm"
+            },
+            "children": [
+                "alert1"
+            ]
+        },
+        "alert1": {
+            "key": "alert1",
+            "type": "Alert",
+            "props": {
+                "title": "Update Available",
+                "message": "v2.0.4 is ready.",
+                "type": "info"
+            }
+        }
+    }
+}

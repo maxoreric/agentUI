@@ -6,7 +6,8 @@ export function Button({ element, onAction, loading }: ComponentRenderProps) {
   const { props } = element;
   const variant = props.variant as string | undefined;
   const label = props.label as string;
-  const action = props.action as string | undefined;
+  // Default to "submit" if no action is provided (Convention over Configuration)
+  const action = (props.action as string) || "submit";
 
   const btnClass =
     variant === "danger"
@@ -16,7 +17,7 @@ export function Button({ element, onAction, loading }: ComponentRenderProps) {
         : "bg-foreground text-background hover:opacity-90";
 
   const handleClick = () => {
-    if (action && onAction) {
+    if (onAction) {
       // Pass the action name and collect all form data
       onAction({ name: action });
     }

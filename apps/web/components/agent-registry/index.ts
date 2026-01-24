@@ -5,18 +5,21 @@ import type { ComponentRegistry } from "@json-render/react";
 // Import enhanced components for Agent mode
 import { Button } from "./button";
 import { Input } from "./input";
+import { Select } from "./select";
+import { Checkbox } from "./checkbox";
+import { Radio } from "./radio";
+import { Switch } from "./switch";
 
 // Reuse demo components for layout and display
-import { Alert } from "../demo/alert";
-import { Badge } from "../demo/badge";
-import { Card } from "../demo/card";
-import { Divider } from "../demo/divider";
-import { Grid } from "../demo/grid";
-import { Heading } from "../demo/heading";
-import { Progress } from "../demo/progress";
-import { Stack } from "../demo/stack";
-import { Text } from "../demo/text";
-import { Select } from "../demo/select";
+import { Alert } from "@/components/demo/alert";
+import { Badge } from "@/components/demo/badge";
+import { Card } from "@/components/demo/card";
+import { Divider } from "@/components/demo/divider";
+import { Grid } from "@/components/demo/grid";
+import { Heading } from "@/components/demo/heading";
+import { Progress } from "@/components/demo/progress";
+import { Stack } from "@/components/demo/stack";
+import { Text } from "@/components/demo/text";
 
 // Agent-specific registry with data binding support
 export const agentRegistry: ComponentRegistry = {
@@ -39,8 +42,11 @@ export const agentRegistry: ComponentRegistry = {
   Badge,
   Progress,
 
-  // Form inputs (reused from demo for now)
+  // Form inputs with data binding
   Select,
+  Checkbox,
+  Radio,
+  Switch,
 };
 
 export { Button, Input };
