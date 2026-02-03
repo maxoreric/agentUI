@@ -7,6 +7,14 @@ description: "Use when you need to send interactive cards to the user for review
 
 Push interactive cards to the CardFeed app for user review and decisions.
 
+## Setup
+
+**First time only** - User runs:
+```bash
+./scripts/start.sh
+```
+This clones the repo to `~/.cardfeed/` and starts the services.
+
 ## When to Use
 
 - Need **user approval** for code, designs, or plans → `push_card.sh code_review`
@@ -18,27 +26,37 @@ Push interactive cards to the CardFeed app for user review and decisions.
 
 | Action | Command |
 |--------|---------|
+| **Start services** | `./scripts/start.sh` |
 | Push briefing | `./scripts/push_card.sh briefing "Title" "Body"` |
 | Push choice | `./scripts/push_card.sh choice "Title" "Body" "A,B,C"` |
 | Push code review | `./scripts/push_card.sh code_review "Title" "code" "description"` |
 | Read response | `./scripts/read_response.sh` |
+| Wait for response | `./scripts/read_response.sh --wait` |
 | **Create new card** | `./scripts/create_card.sh CardName "description"` |
+
+## Data Flow
+
+```
+1. You call push_card.sh → writes to ~/.cardfeed/cardfeed/data/cards.json
+2. WebSocket server detects change → pushes to user's browser/phone
+3. User clicks button → response saved to responses.json
+4. You call read_response.sh → get user's decision
+```
 
 ## Creating New Card Types
 
-When existing cards (briefing, choice, code_review) don't fit your needs:
+When existing cards don't fit your needs:
 
 ```bash
-# Create a new card component
-./scripts/create_card.sh ProgressCard "Shows progress with percentage bar"
+# 1. Create a new card component
+./scripts/create_card.sh DashboardCard "Shows metrics and KPIs"
 
-# This creates:
-# - app/src/components/cards/ProgressCard.tsx
-# - Updates CardRegistry in index.ts
-# - Vite HMR auto-reloads the app
-
-# Then push a card using the new type:
-./scripts/push_card.sh progress "Task Progress" "<p>50% complete</p>"
+# This automatically:
+# - Creates DashboardCard.tsx
+# - Updates CardRegistry
+# - Verifies build passes
+# - Commits and pushes to GitHub
+# - Vite HMR reloads the app
 ```
 
 ### Card Type Naming
@@ -49,10 +67,19 @@ When existing cards (briefing, choice, code_review) don't fit your needs:
 | DashboardCard | `dashboard` |
 | FormInputCard | `form_input` |
 
+## File Locations
+
+All CardFeed files are at `~/.cardfeed/cardfeed/`:
+- `app/` - React frontend (Vite)
+- `server/` - WebSocket server (Node.js + ws)
+- `data/` - cards.json, responses.json
+- `app/src/components/cards/` - Card components (AI can modify)
+
 ## Common Mistakes
 
 | Mistake | Fix |
 |---------|-----|
-| Card type not found | Run `create_card.sh` first, or check type name |
+| Services not running | Run `./scripts/start.sh` first |
+| Card type not found | Run `create_card.sh` first |
 | JSON parse error | Escape special characters in body |
-| Card not showing | Check `data/cards.json` for valid JSON |
+| Old card showing | Services auto-update, wait a moment |

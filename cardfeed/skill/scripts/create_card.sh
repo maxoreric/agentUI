@@ -5,8 +5,8 @@
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CARDS_DIR="${SCRIPT_DIR}/../../app/src/components/cards"
+CARDFEED_DIR="$HOME/.cardfeed/cardfeed"
+CARDS_DIR="${CARDFEED_DIR}/app/src/components/cards"
 REGISTRY_FILE="${CARDS_DIR}/index.ts"
 
 CARD_NAME="$1"
@@ -93,10 +93,36 @@ sed -i '' "s|export { BriefingCard|export { ${CARD_NAME}, BriefingCard|" "$REGIS
 
 echo "Updated registry: $REGISTRY_FILE"
 echo ""
-echo "Card '${CARD_NAME}' created successfully!"
-echo "Type: '${TYPE_NAME}'"
+
+# Verify build
+echo "🔍 Verifying build..."
+CARDFEED_DIR="$HOME/.cardfeed/cardfeed"
+cd "$CARDFEED_DIR/app"
+if npm run build --silent 2>/dev/null; then
+  echo "✅ Build successful"
+else
+  echo "❌ Build failed! Please fix errors before committing."
+  exit 1
+fi
+
+# Commit and push to GitHub
+echo "📤 Committing and pushing to GitHub..."
+cd "$CARDFEED_DIR"
+git add .
+git commit -m "feat(cards): add ${CARD_NAME} component
+
+- Created ${CARD_NAME}.tsx
+- Updated CardRegistry
+- Type: ${TYPE_NAME}"
+git push origin master
+
 echo ""
-echo "Next steps:"
-echo "1. Edit $CARD_FILE to customize the component"
-echo "2. Vite HMR will auto-reload the app"
-echo "3. Push a card with type '${TYPE_NAME}' to test"
+echo "╔════════════════════════════════════════════════════════╗"
+echo "║  Card '${CARD_NAME}' created and pushed!              ║"
+echo "╠════════════════════════════════════════════════════════╣"
+echo "║  Type: '${TYPE_NAME}'                                  ║"
+echo "║  File: ${CARD_FILE}                                    ║"
+echo "╠════════════════════════════════════════════════════════╣"
+echo "║  Vite HMR will auto-reload the app                     ║"
+echo "║  Push a card with type '${TYPE_NAME}' to test          ║"
+echo "╚════════════════════════════════════════════════════════╝"

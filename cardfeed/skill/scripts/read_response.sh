@@ -4,8 +4,8 @@
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DATA_DIR="${SCRIPT_DIR}/../../data"
+CARDFEED_DIR="$HOME/.cardfeed/cardfeed"
+DATA_DIR="${CARDFEED_DIR}/data"
 RESPONSES_FILE="${DATA_DIR}/responses.json"
 
 WAIT=false
