@@ -1,45 +1,58 @@
 ---
 name: cardfeed
-description: "Push interactive cards to the CardFeed app for user review and decisions. Use this when you need structured user input like approvals, choices, or acknowledgments."
+description: "Use when you need to send interactive cards to the user for review, decisions, approvals, or choices. Also use when you need to create new card types for specialized interactions."
 ---
 
 # CardFeed Skill
 
-Push cards to the user's CardFeed app for review and decisions.
+Push interactive cards to the CardFeed app for user review and decisions.
 
 ## When to Use
 
-Use this skill when you need:
-- **User approval** for code changes, designs, or plans
-- **User choice** between multiple options
-- **User acknowledgment** of important information
+- Need **user approval** for code, designs, or plans → `push_card.sh code_review`
+- Need **user choice** between options → `push_card.sh choice`
+- Need **user acknowledgment** of information → `push_card.sh briefing`
+- Current card types don't fit your need → `create_card.sh NewCard`
 
-## Usage
+## Quick Reference
 
-### Push a Briefing Card
+| Action | Command |
+|--------|---------|
+| Push briefing | `./scripts/push_card.sh briefing "Title" "Body"` |
+| Push choice | `./scripts/push_card.sh choice "Title" "Body" "A,B,C"` |
+| Push code review | `./scripts/push_card.sh code_review "Title" "code" "description"` |
+| Read response | `./scripts/read_response.sh` |
+| **Create new card** | `./scripts/create_card.sh CardName "description"` |
+
+## Creating New Card Types
+
+When existing cards (briefing, choice, code_review) don't fit your needs:
+
 ```bash
-./scripts/push_card.sh briefing "Daily Summary" "<p>Found 3 tasks...</p>"
+# Create a new card component
+./scripts/create_card.sh ProgressCard "Shows progress with percentage bar"
+
+# This creates:
+# - app/src/components/cards/ProgressCard.tsx
+# - Updates CardRegistry in index.ts
+# - Vite HMR auto-reloads the app
+
+# Then push a card using the new type:
+./scripts/push_card.sh progress "Task Progress" "<p>50% complete</p>"
 ```
 
-### Push a Choice Card
-```bash
-./scripts/push_card.sh choice "Database Selection" "Which database?" "PostgreSQL,MongoDB,SQLite"
-```
+### Card Type Naming
 
-### Push a Code Review Card
-```bash
-./scripts/push_card.sh code_review "Fix: Auth Bug" "const fix = () => {...}" "Added retry logic"
-```
+| CardName | type value |
+|----------|------------|
+| ProgressCard | `progress` |
+| DashboardCard | `dashboard` |
+| FormInputCard | `form_input` |
 
-### Read User Response
-```bash
-./scripts/read_response.sh
-```
+## Common Mistakes
 
-## Card Types
-
-| Type | Purpose | User Actions |
-|------|---------|--------------|
-| `briefing` | Information summary | Acknowledge |
-| `choice` | Decision required | Select option |
-| `code_review` | Code approval | Approve / Reject |
+| Mistake | Fix |
+|---------|-----|
+| Card type not found | Run `create_card.sh` first, or check type name |
+| JSON parse error | Escape special characters in body |
+| Card not showing | Check `data/cards.json` for valid JSON |

@@ -1,6 +1,17 @@
 {
   "cards": [
     {
+      "id": "card_progress_001",
+      "type": "progress",
+      "timestamp": "2026-02-04T09:00:00Z",
+      "status": "pending",
+      "author": "Claude",
+      "content": {
+        "title": "Phase 2 Progress",
+        "body": "Dynamic card generation is now working!"
+      }
+    },
+    {
       "id": "card_demo_001",
       "type": "briefing",
       "timestamp": "2026-02-04T08:00:00Z",
@@ -8,36 +19,7 @@
       "author": "Claude",
       "content": {
         "title": "Welcome to CardFeed",
-        "body": "<p>This is your first card! CardFeed is now running.</p><p>Try scrolling to see more cards, or wait for AI to push new ones.</p>"
-      }
-    },
-    {
-      "id": "card_demo_002",
-      "type": "choice",
-      "timestamp": "2026-02-04T08:01:00Z",
-      "status": "pending",
-      "author": "Claude",
-      "content": {
-        "title": "Tech Stack Confirmation",
-        "body": "For the CardFeed frontend, which framework did we choose?",
-        "options": [
-          "React",
-          "Vue",
-          "Svelte",
-          "Angular"
-        ]
-      }
-    },
-    {
-      "id": "card_demo_003",
-      "type": "code_review",
-      "timestamp": "2026-02-04T08:02:00Z",
-      "status": "pending",
-      "author": "Claude",
-      "content": {
-        "title": "Fix: Add Card Push Script",
-        "code": "#!/bin/bash\n# push_card.sh - Push a card to CardFeed\nTYPE=\"$1\"\nTITLE=\"$2\"\nBODY=\"$3\"",
-        "description": "Added push_card.sh for AI integration"
+        "body": "<p>This is your first card! CardFeed is now running.</p>"
       }
     }
   ]
