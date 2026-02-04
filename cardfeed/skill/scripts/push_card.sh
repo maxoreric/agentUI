@@ -4,8 +4,9 @@
 
 set -e
 
-CARDFEED_DIR="$HOME/.cardfeed/cardfeed"
-DATA_DIR="${CARDFEED_DIR}/data"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+DATA_DIR="${SKILL_DIR}/data"
 CARDS_FILE="${DATA_DIR}/cards.json"
 
 TYPE="$1"
@@ -80,8 +81,21 @@ EOF
 )
     ;;
   *)
-    echo "Unknown card type: $TYPE"
-    exit 1
+    # Dynamic card type - use generic structure
+    CARD=$(cat <<EOF
+{
+  "id": "$ID",
+  "type": "$TYPE",
+  "timestamp": "$TIMESTAMP",
+  "status": "pending",
+  "author": "Claude",
+  "content": {
+    "title": "$TITLE",
+    "body": "$BODY"
+  }
+}
+EOF
+)
     ;;
 esac
 

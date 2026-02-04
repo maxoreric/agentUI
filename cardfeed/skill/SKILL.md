@@ -7,13 +7,14 @@ description: "Use when you need to send interactive cards to the user for review
 
 Push interactive cards to the CardFeed app for user review and decisions.
 
-## Setup
+## Setup (User runs once)
 
-**First time only** - User runs:
 ```bash
+cd <project>/.agent/skills/cardfeed
 ./scripts/start.sh
 ```
-This clones the repo to `~/.cardfeed/` and starts the services.
+
+This installs dependencies and starts the services.
 
 ## When to Use
 
@@ -26,7 +27,6 @@ This clones the repo to `~/.cardfeed/` and starts the services.
 
 | Action | Command |
 |--------|---------|
-| **Start services** | `./scripts/start.sh` |
 | Push briefing | `./scripts/push_card.sh briefing "Title" "Body"` |
 | Push choice | `./scripts/push_card.sh choice "Title" "Body" "A,B,C"` |
 | Push code review | `./scripts/push_card.sh code_review "Title" "code" "description"` |
@@ -34,28 +34,30 @@ This clones the repo to `~/.cardfeed/` and starts the services.
 | Wait for response | `./scripts/read_response.sh --wait` |
 | **Create new card** | `./scripts/create_card.sh CardName "description"` |
 
-## Data Flow
+## Folder Structure
 
 ```
-1. You call push_card.sh → writes to ~/.cardfeed/cardfeed/data/cards.json
-2. WebSocket server detects change → pushes to user's browser/phone
-3. User clicks button → response saved to responses.json
-4. You call read_response.sh → get user's decision
+skill/
+├── SKILL.md           # This file
+├── scripts/           # AI uses these
+│   ├── start.sh       # User runs to start services
+│   ├── push_card.sh   # AI sends cards
+│   ├── read_response.sh  # AI reads responses
+│   └── create_card.sh    # AI creates new card types
+├── app/               # React frontend (Vite)
+├── server/            # WebSocket server (Node.js)
+└── data/              # cards.json, responses.json
 ```
 
 ## Creating New Card Types
 
-When existing cards don't fit your needs:
-
 ```bash
-# 1. Create a new card component
+# Create a new card component
 ./scripts/create_card.sh DashboardCard "Shows metrics and KPIs"
 
 # This automatically:
-# - Creates DashboardCard.tsx
+# - Creates app/src/components/cards/DashboardCard.tsx
 # - Updates CardRegistry
-# - Verifies build passes
-# - Commits and pushes to GitHub
 # - Vite HMR reloads the app
 ```
 
@@ -67,19 +69,10 @@ When existing cards don't fit your needs:
 | DashboardCard | `dashboard` |
 | FormInputCard | `form_input` |
 
-## File Locations
-
-All CardFeed files are at `~/.cardfeed/cardfeed/`:
-- `app/` - React frontend (Vite)
-- `server/` - WebSocket server (Node.js + ws)
-- `data/` - cards.json, responses.json
-- `app/src/components/cards/` - Card components (AI can modify)
-
 ## Common Mistakes
 
 | Mistake | Fix |
 |---------|-----|
-| Services not running | Run `./scripts/start.sh` first |
+| Services not running | User must run `./scripts/start.sh` first |
 | Card type not found | Run `create_card.sh` first |
 | JSON parse error | Escape special characters in body |
-| Old card showing | Services auto-update, wait a moment |

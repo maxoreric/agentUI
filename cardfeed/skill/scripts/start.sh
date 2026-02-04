@@ -5,60 +5,48 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CARDFEED_DIR="$SCRIPT_DIR/.."
-
-# Configuration
-REPO_URL="https://github.com/maxoreric/agentUI.git"
-LOCAL_DIR="$HOME/.cardfeed"
-CARDFEED_PATH="$LOCAL_DIR/cardfeed"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
 
 echo "╔════════════════════════════════════════════════════════╗"
 echo "║           CardFeed Startup                             ║"
 echo "╚════════════════════════════════════════════════════════╝"
 
-# Check if gh is installed
-if ! command -v gh &> /dev/null; then
-  echo "❌ GitHub CLI (gh) not installed. Install: brew install gh"
-  exit 1
+# Install dependencies if needed
+if [ ! -d "$SKILL_DIR/app/node_modules" ]; then
+  echo "📦 Installing app dependencies..."
+  cd "$SKILL_DIR/app"
+  npm install
 fi
 
-# Clone or pull repo
-if [ ! -d "$LOCAL_DIR" ]; then
-  echo "📥 First time setup: cloning repository..."
-  git clone "$REPO_URL" "$LOCAL_DIR"
-else
-  echo "📥 Pulling latest changes..."
-  cd "$LOCAL_DIR"
-  git pull origin master
+if [ ! -d "$SKILL_DIR/server/node_modules" ]; then
+  echo "📦 Installing server dependencies..."
+  cd "$SKILL_DIR/server"
+  npm install
 fi
-
-# Install dependencies
-echo "📦 Installing dependencies..."
-cd "$CARDFEED_PATH/app"
-npm install --silent
-
-cd "$CARDFEED_PATH/server"
-npm install --silent
 
 # Start services
 echo ""
 echo "🚀 Starting services..."
 
 # Start WebSocket server in background
-cd "$CARDFEED_PATH/server"
+cd "$SKILL_DIR/server"
 node index.js &
 SERVER_PID=$!
 
 # Start Vite dev server
-cd "$CARDFEED_PATH/app"
+cd "$SKILL_DIR/app"
 npm run dev -- --host &
 APP_PID=$!
+
+# Get local IP
+LOCAL_IP=$(ipconfig getifaddr en0 2>/dev/null || echo "localhost")
 
 echo ""
 echo "╔════════════════════════════════════════════════════════╗"
 echo "║  CardFeed is running!                                  ║"
 echo "╠════════════════════════════════════════════════════════╣"
 echo "║  Web App:    http://localhost:5173                     ║"
+echo "║  Mobile:     http://${LOCAL_IP}:5173                   ║"
 echo "║  WebSocket:  ws://localhost:8080                       ║"
 echo "╠════════════════════════════════════════════════════════╣"
 echo "║  Press Ctrl+C to stop                                  ║"

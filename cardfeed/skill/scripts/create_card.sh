@@ -5,8 +5,9 @@
 
 set -e
 
-CARDFEED_DIR="$HOME/.cardfeed/cardfeed"
-CARDS_DIR="${CARDFEED_DIR}/app/src/components/cards"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+CARDS_DIR="${SKILL_DIR}/app/src/components/cards"
 REGISTRY_FILE="${CARDS_DIR}/index.ts"
 
 CARD_NAME="$1"
@@ -93,32 +94,8 @@ sed -i '' "s|export { BriefingCard|export { ${CARD_NAME}, BriefingCard|" "$REGIS
 
 echo "Updated registry: $REGISTRY_FILE"
 echo ""
-
-# Verify build
-echo "🔍 Verifying build..."
-CARDFEED_DIR="$HOME/.cardfeed/cardfeed"
-cd "$CARDFEED_DIR/app"
-if npm run build --silent 2>/dev/null; then
-  echo "✅ Build successful"
-else
-  echo "❌ Build failed! Please fix errors before committing."
-  exit 1
-fi
-
-# Commit and push to GitHub
-echo "📤 Committing and pushing to GitHub..."
-cd "$CARDFEED_DIR"
-git add .
-git commit -m "feat(cards): add ${CARD_NAME} component
-
-- Created ${CARD_NAME}.tsx
-- Updated CardRegistry
-- Type: ${TYPE_NAME}"
-git push origin master
-
-echo ""
 echo "╔════════════════════════════════════════════════════════╗"
-echo "║  Card '${CARD_NAME}' created and pushed!              ║"
+echo "║  Card '${CARD_NAME}' created!                          ║"
 echo "╠════════════════════════════════════════════════════════╣"
 echo "║  Type: '${TYPE_NAME}'                                  ║"
 echo "║  File: ${CARD_FILE}                                    ║"
